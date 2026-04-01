@@ -6,9 +6,12 @@ const { obterToken } = require('../helpers/autenticacao')
 
 describe('Transferências', () => {
   describe('POST / transferencias', () => {
-    it('Deve retornar sucesso com 201 quando o valor foi igual ou maior que R$10,00', async () => {
-      const token = await obterToken('adriana.lima', '123456')
+     let token
+    beforeEach(async () => {
+      token = await obterToken('adriana.lima', '123456')
+    })
 
+    it('Deve retornar sucesso com 201 quando o valor foi igual ou maior que R$10,00', async () => {
       const resposta = await request(process.env.BASE_URL) 
       .post('/transferencias')
       .set('Content-type', 'application/json')
@@ -26,7 +29,6 @@ describe('Transferências', () => {
       console.log(resposta.body) 
     })
     it('Deve retornar falha com 422 quando o valor for menor que R$10,00', async () => {
-      const token = await obterToken('adriana.lima', '123456')
 
       const resposta = await request(process.env.BASE_URL) 
       .post('/transferencias')
